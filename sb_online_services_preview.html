@@ -1,0 +1,441 @@
+<style>
+  .sbroot{ position:relative; }
+  .sbroot .bg0{
+    --bg: #0a0b10;
+    --bg-panel: #12141c;
+    --bg-panel-2: #171a24;
+    --border: #232636;
+    --text: #eef0f7;
+    --text-dim: #8b90a3;
+    --accent-a: #5b6cff;
+    --accent-b: #9b6bff;
+    --accent-live: #ff4d6d;
+    --success: #34d399;
+    --radius: 14px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .sbroot *{box-sizing:border-box;}
+  .sbroot h1,.sbroot h2,.sbroot h3, .sbroot .brand, .sbroot .logo-mark{ font-family:'Sora', sans-serif; }
+  .sbroot a{ color:inherit; text-decoration:none; cursor:pointer; }
+  .sbroot button{ font-family:inherit; cursor:pointer; }
+  .sbroot .view{ display:none; }
+  .sbroot .view.active{ display:block; }
+  .sbroot .logo-mark{
+    position:relative;
+    width:38px; height:38px;
+    border-radius:10px;
+    background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .sbroot .logo-mark::before, .sbroot .logo-mark::after{
+    content:'';
+    position:absolute;
+    border-radius:50%;
+    border:1.5px solid rgba(155,107,255,0.5);
+    animation: sb-pulse-ring 2.4s ease-out infinite;
+  }
+  .sbroot .logo-mark::before{ width:100%; height:100%; animation-delay:0s; }
+  .sbroot .logo-mark::after{ width:100%; height:100%; animation-delay:1.2s; }
+  @keyframes sb-pulse-ring{
+    0%{ transform:scale(1); opacity:0.8; }
+    100%{ transform:scale(2.2); opacity:0; }
+  }
+  .sbroot .logo-dot{ width:10px; height:10px; background:#fff; border-radius:50%; z-index:2; }
+  .sbroot .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+    border-bottom:1px solid var(--border);
+  }
+  .sbroot .nav-left{ display:flex; align-items:center; gap:12px; }
+  .sbroot .brand{ font-weight:700; font-size:17px; letter-spacing:-0.02em; }
+  .sbroot .brand span{ color:var(--accent-b); }
+  .sbroot .nav-links{ display:flex; gap:24px; color:var(--text-dim); font-size:13px; }
+  .sbroot .nav-right{ display:flex; gap:10px; align-items:center; }
+  .sbroot .btn{
+    padding:9px 16px; border-radius:9px; border:1px solid var(--border);
+    background:transparent; color:var(--text); font-size:13px; font-weight:600;
+  }
+  .sbroot .btn-primary{
+    background:linear-gradient(135deg, var(--accent-a), var(--accent-b));
+    border:none;
+  }
+  .sbroot .hero{ max-width:640px; margin:56px auto 40px; padding:0 20px; text-align:center; }
+  .sbroot .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; padding:6px 14px;
+    border:1px solid var(--border); border-radius:100px; font-size:11px;
+    color:var(--text-dim); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:22px;
+  }
+  .sbroot .eyebrow .live-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--accent-live);
+    animation:sb-blip 1.6s infinite;
+  }
+  @keyframes sb-blip{
+    0%{ box-shadow:0 0 0 0 rgba(255,77,109,.5); }
+    70%{ box-shadow:0 0 0 8px rgba(255,77,109,0); }
+    100%{ box-shadow:0 0 0 0 rgba(255,77,109,0); }
+  }
+  .sbroot .hero h1{ font-size:34px; line-height:1.12; font-weight:800; letter-spacing:-0.02em; }
+  .sbroot .hero h1 .grad{
+    background:linear-gradient(90deg, var(--accent-a), var(--accent-b));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .sbroot .hero p{ color:var(--text-dim); font-size:14.5px; max-width:520px; margin:18px auto 26px; line-height:1.6; }
+  .sbroot .hero-cta{ display:flex; gap:12px; justify-content:center; }
+  .sbroot .btn-lg{ padding:12px 22px; font-size:14px; border-radius:11px; }
+  .sbroot .strip{ display:flex; justify-content:center; gap:36px; margin-top:50px; padding:20px; border-top:1px solid var(--border); flex-wrap:wrap; }
+  .sbroot .strip div{ text-align:center; }
+  .sbroot .strip .num{ font-family:'Sora'; font-size:20px; font-weight:700; }
+  .sbroot .strip .lbl{ font-size:11px; color:var(--text-dim); margin-top:4px; }
+  .sbroot .login-wrap{ display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+  .sbroot .login-card{
+    width:100%; max-width:360px; background:var(--bg-panel); border:1px solid var(--border);
+    border-radius:20px; padding:36px 28px; text-align:center;
+  }
+  .sbroot .login-card .logo-mark{ margin:0 auto 20px; }
+  .sbroot .login-card h2{ font-size:19px; margin-bottom:8px; }
+  .sbroot .login-card p{ color:var(--text-dim); font-size:13px; margin-bottom:24px; }
+  .sbroot .g-btn{
+    width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+    padding:12px; border-radius:10px; border:1px solid var(--border);
+    background:var(--bg-panel-2); color:var(--text); font-weight:600; font-size:13.5px;
+  }
+  .sbroot .login-note{ margin-top:18px; font-size:11.5px; color:var(--text-dim); }
+  .sbroot .login-error{
+    display:none; margin-top:14px; padding:11px; border-radius:9px;
+    background:rgba(255,77,109,0.1); border:1px solid rgba(255,77,109,0.3); color:#ff9fb0; font-size:12.5px;
+  }
+  .sbroot .back-link{ display:block; padding:14px 20px 0; font-size:13px; color:var(--text-dim); }
+  .sbroot .dash{ display:flex; min-height:560px; }
+  .sbroot .sidebar{
+    width:210px; background:var(--bg-panel); border-right:1px solid var(--border);
+    padding:18px 12px; display:flex; flex-direction:column; flex-shrink:0;
+  }
+  .sbroot .sidebar .brand{ padding:4px 8px 20px; display:flex; align-items:center; gap:8px; font-size:14.5px;}
+  .sbroot .sidebar .brand .logo-mark{ width:26px; height:26px; }
+  .sbroot .side-section{ font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:12px 8px 6px; }
+  .sbroot .side-link{
+    display:flex; align-items:center; gap:9px; padding:9px 10px; border-radius:9px;
+    font-size:13px; color:var(--text-dim); margin-bottom:2px;
+  }
+  .sbroot .side-link.active{
+    background:linear-gradient(135deg, rgba(91,108,255,.18), rgba(155,107,255,.14));
+    color:var(--text); border:1px solid rgba(155,107,255,.3);
+  }
+  .sbroot .side-link .ic{ width:14px; text-align:center; }
+  .sbroot .sidebar-foot{
+    margin-top:auto; display:flex; align-items:center; gap:8px;
+    padding:10px; border:1px solid var(--border); border-radius:11px;
+  }
+  .sbroot .avatar{
+    width:28px; height:28px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent-a),var(--accent-b));
+    display:flex;align-items:center;justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;
+  }
+  .sbroot .sidebar-foot .who{ font-size:12px; font-weight:600; }
+  .sbroot .sidebar-foot .sub{ font-size:10px; color:var(--text-dim); }
+  .sbroot .logout{ margin-left:auto; color:var(--text-dim); font-size:12px; }
+  .sbroot .main{ flex:1; padding:22px 26px; overflow:auto; }
+  .sbroot .crumb{ font-size:12px; color:var(--text-dim); margin-bottom:14px; }
+  .sbroot .page-head{ margin-bottom:22px; }
+  .sbroot .page-head h1{ font-size:21px; }
+  .sbroot .page-head p{ color:var(--text-dim); font-size:13px; margin-top:5px; }
+  .sbroot .panel{ background:var(--bg-panel); border:1px solid var(--border); border-radius:var(--radius); padding:20px; }
+  .sbroot .grid-2{ display:grid; grid-template-columns:1.4fr 1fr; gap:16px; align-items:start; }
+  .sbroot .field{ margin-bottom:16px; }
+  .sbroot .field label{ display:block; font-size:11.5px; color:var(--text-dim); margin-bottom:6px; font-weight:600; }
+  .sbroot .field input{
+    width:100%; background:var(--bg); border:1px solid var(--border); border-radius:9px;
+    padding:10px 12px; color:var(--text); font-size:13px; font-family:inherit;
+  }
+  .sbroot .toggle-row{ display:flex; gap:8px; }
+  .sbroot .toggle-opt{ flex:1; border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:12px; color:var(--text-dim); }
+  .sbroot .toggle-opt.selected{ border-color:var(--accent-b); background:rgba(155,107,255,.08); color:var(--text); }
+  .sbroot .toggle-opt b{ display:block; font-size:12.5px; color:var(--text); margin-bottom:2px; }
+  .sbroot .toggle-opt.selected b{ color:var(--accent-b); }
+  .sbroot .dropzone{
+    border:1.5px dashed var(--border); border-radius:12px; padding:26px 14px; text-align:center;
+    color:var(--text-dim); font-size:12px; margin-bottom:14px; cursor:pointer;
+  }
+  .sbroot .dropzone.has-file{ border-style:solid; border-color:var(--success); background:rgba(52,211,153,.06); }
+  .sbroot .dropzone b{ color:var(--text); display:block; margin-bottom:4px; font-size:13px;}
+  .sbroot .start-btn{
+    width:100%; padding:13px; border-radius:10px; border:none; font-weight:700; font-size:13.5px;
+    background:linear-gradient(135deg, var(--accent-a), var(--accent-b)); color:#fff;
+  }
+  .sbroot .start-btn:disabled{ opacity:.6; }
+  .sbroot .side-note{ font-size:11px; color:var(--text-dim); margin-top:9px; text-align:center; }
+  .sbroot .empty-box{ border:1px dashed var(--border); border-radius:10px; padding:28px 14px; text-align:center; color:var(--text-dim); font-size:12px; }
+  .sbroot .stream-card{ border:1px solid rgba(52,211,153,.35); background:rgba(52,211,153,.06); border-radius:11px; padding:14px; }
+  .sbroot .stream-card .row1{ display:flex; justify-content:space-between; align-items:center; }
+  .sbroot .stream-card .name{ font-weight:700; font-size:13.5px; }
+  .sbroot .stream-card .badge{ display:flex; align-items:center; gap:6px; font-size:10.5px; color:#34d399; font-weight:700; }
+  .sbroot .stream-card .badge .d{ width:6px;height:6px;border-radius:50%; background:#34d399; animation:sb-blip 1.6s infinite; }
+  .sbroot .stream-card .meta{ font-size:11.5px; color:var(--text-dim); margin-top:5px; }
+  .sbroot .stop-btn{
+    margin-top:10px; width:100%; padding:8px; border-radius:8px; border:1px solid rgba(255,77,109,.4);
+    background:rgba(255,77,109,.08); color:#ff9fb0; font-weight:600; font-size:12px;
+  }
+  .sbroot .stat-cards{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:20px; }
+  .sbroot .stat-card{ background:var(--bg-panel); border:1px solid var(--border); border-radius:var(--radius); padding:15px; }
+  .sbroot .stat-card .lbl{ font-size:11px; color:var(--text-dim); margin-bottom:8px; }
+  .sbroot .stat-card .val{ font-size:21px; font-weight:700; font-family:'Sora'; }
+  .sbroot .toast{
+    margin:10px 20px 16px; background:var(--bg-panel-2); border:1px solid var(--border);
+    padding:11px 16px; border-radius:11px; font-size:12.5px; display:none; align-items:center; gap:9px;
+  }
+  .sbroot .toast.show{ display:flex; }
+  .sbroot .toast .d{ width:7px;height:7px;border-radius:50%; background:var(--success); flex-shrink:0; }
+</style>
+
+<div class="sbroot">
+<div class="bg0">
+
+<div class="view active" id="sb-view-landing">
+  <div class="nav">
+    <div class="nav-left">
+      <div class="logo-mark"><div class="logo-dot"></div></div>
+      <div class="brand">SB <span>Online Services</span></div>
+    </div>
+    <div class="nav-links"><a>ফিচার</a><a>যেভাবে কাজ করে</a><a>যোগাযোগ</a></div>
+    <div class="nav-right">
+      <button class="btn" onclick="sbShowView('login')">লগ ইন</button>
+      <button class="btn btn-primary" onclick="sbShowView('login')">শুরু করুন</button>
+    </div>
+  </div>
+  <div class="hero">
+    <div class="eyebrow"><span class="live-dot"></span> ২৪/৭ স্বয়ংক্রিয় লাইভ স্ট্রিমিং</div>
+    <h1>আপনার ইউটিউব চ্যানেলে<br><span class="grad">অবিরাম লাইভ</span> চালিয়ে রাখুন</h1>
+    <p>ভিডিও আপলোড করুন, স্ট্রিম কী বসান, আর ছেড়ে দিন। ব্রাউজার বন্ধ করলেও সার্ভার লাইভ চালিয়ে যাবে।</p>
+    <div class="hero-cta"><button class="btn btn-primary btn-lg" onclick="sbShowView('login')">ড্যাশবোর্ডে যান →</button></div>
+  </div>
+  <div class="strip">
+    <div><div class="num">24/7</div><div class="lbl">নন-স্টপ স্ট্রিমিং</div></div>
+    <div><div class="num">Loop</div><div class="lbl">ভিডিও রিপিট মোড</div></div>
+    <div><div class="num">Multi</div><div class="lbl">একাধিক চ্যানেল</div></div>
+  </div>
+</div>
+
+<div class="view" id="sb-view-login">
+  <a class="back-link" onclick="sbShowView('landing')">← ওয়েবসাইটে ফিরে যান</a>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="logo-mark"><div class="logo-dot"></div></div>
+      <h2>SB Online Services-এ স্বাগতম</h2>
+      <p>শুধুমাত্র অনুমোদিত (whitelisted) Gmail দিয়ে প্রবেশ করা যাবে।</p>
+      <button class="g-btn" onclick="sbTryLogin()">
+        <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.6 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4c-7.5 0-14 4.2-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.3 0 10.1-2 13.7-5.4l-6.3-5.3C29.4 35.2 26.8 36 24 36c-5.4 0-9.9-3.4-11.5-8.2l-6.5 5C9.9 39.7 16.4 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1.1 3-3.4 5.5-6.3 7l6.3 5.3C38.5 37.5 44 31.5 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+        Google দিয়ে লগ ইন করুন
+      </button>
+      <div class="login-error" id="sbLoginError">এই Gmail অনুমোদিত না।</div>
+      <div class="login-note">demo: <b>tubebost1@gmail.com</b> দিয়ে লগইন কাজ করবে</div>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="sb-view-dash">
+  <div class="dash">
+    <div class="sidebar">
+      <div class="brand"><div class="logo-mark"><div class="logo-dot"></div></div> SB <span style="color:var(--accent-b)">Online</span></div>
+      <div class="side-section">প্ল্যাটফর্ম</div>
+      <a class="side-link active" onclick="sbShowDashPage('overview', this)"><span class="ic">▦</span> ড্যাশবোর্ড</a>
+      <div class="side-section">ইউটিউব</div>
+      <a class="side-link" onclick="sbShowDashPage('stream', this)"><span class="ic">◉</span> লাইভ স্ট্রিমিং</a>
+      <div class="side-section">অ্যাডমিন</div>
+      <a class="side-link" onclick="sbShowDashPage('admin', this)"><span class="ic">🛡</span> অ্যাডমিন প্যানেল</a>
+      <div class="sidebar-foot">
+        <div class="avatar" id="sbAvatarLetter">Y</div>
+        <div><div class="who" id="sbUserName">YouTube</div><div class="sub" id="sbUserMail">tubebost1@gmail.com</div></div>
+        <a class="logout" onclick="sbShowView('landing')">লগআউট</a>
+      </div>
+    </div>
+    <div class="main">
+      <div id="sb-page-overview">
+        <div class="crumb">Pages / Dashboard</div>
+        <div class="page-head"><h1>প্ল্যাটফর্ম ওভারভিউ</h1><p>আপনার সব লাইভ স্ট্রিম এক নজরে।</p></div>
+        <div class="stat-cards">
+          <div class="stat-card"><div class="lbl">সক্রিয় স্ট্রিম</div><div class="val" id="sbStatActive">0</div></div>
+          <div class="stat-card"><div class="lbl">মোট চ্যানেল</div><div class="val">1</div></div>
+        </div>
+        <div class="panel"><h3 style="margin-bottom:12px; font-size:14px;">সাম্প্রতিক অ্যাক্টিভিটি</h3>
+        <div class="empty-box" id="sbActivityEmpty">এখনো কোনো স্ট্রিম শুরু করা হয়নি।</div></div>
+      </div>
+
+      <div id="sb-page-stream" style="display:none;">
+        <div class="crumb">Pages / Live Streaming</div>
+        <div class="page-head"><h1>◉ ২৪/৭ লাইভ স্ট্রিম</h1><p>ভিডিও দিন, স্ট্রিম কী বসান, মোড বেছে চালু করুন।</p></div>
+        <div class="grid-2">
+          <div class="panel">
+            <h3 style="font-size:13px; margin-bottom:14px;">১. ভিডিও সোর্স</h3>
+            <div class="dropzone" id="sbDropzone" onclick="sbSelectFile()">
+              <b id="sbDropzoneText">ভিডিও ফাইল টেনে আনুন বা ক্লিক করুন</b>
+              <span id="sbDropzoneSub">MP4, MOV, MKV — সর্বোচ্চ 100GB</span>
+            </div>
+            <div class="field"><label>স্ট্রিম টাইটেল</label><input type="text" id="sbStreamTitle" placeholder="যেমন: Om Chanting 24/7"></div>
+            <div class="field"><label>চ্যানেল স্ট্রিম কী</label><input type="password" id="sbStreamKey" placeholder="স্ট্রিম কী পেস্ট করুন"></div>
+            <div class="field"><label>মোড বাছাই করুন</label>
+              <div class="toggle-row">
+                <div class="toggle-opt selected" id="sbModeLoop" onclick="sbSetMode('loop')"><b>🔁 Loop (24/7)</b>বারবার চলবে</div>
+                <div class="toggle-opt" id="sbModeOnce" onclick="sbSetMode('once')"><b>▶ একবার</b>শেষে বন্ধ হবে</div>
+              </div>
+            </div>
+            <button class="start-btn" id="sbStartBtn" onclick="sbStartStream()">লাইভ স্ট্রিম শুরু করুন</button>
+            <div class="side-note">শুরুর পর ব্রাউজার বন্ধ করলেও চলবে (ব্যাকএন্ড বসানোর পর)।</div>
+          </div>
+          <div class="panel">
+            <h3 style="font-size:13px; margin-bottom:14px;">সক্রিয় স্ট্রিম</h3>
+            <div id="sbNoActive" class="empty-box">এখনো কোনো লাইভ চালু নেই।</div>
+            <div id="sbActiveCard" style="display:none;" class="stream-card">
+              <div class="row1"><div class="name" id="sbActiveTitle">—</div><div class="badge"><span class="d"></span> LIVE</div></div>
+              <div class="meta" id="sbActiveMode">Loop (24/7)</div>
+              <div class="meta" id="sbActiveTimer">চলছে: 00:00:00</div>
+              <button class="stop-btn" onclick="sbStopStream()">স্ট্রিম বন্ধ করুন</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sb-page-admin" style="display:none;">
+        <div class="crumb">Pages / Admin Panel</div>
+        <div class="page-head"><h1>🛡 অ্যাডমিন প্যানেল</h1><p>কোন Gmail সাইটে ঢুকতে পারবে নিয়ন্ত্রণ করুন।</p></div>
+        <div class="grid-2">
+          <div class="panel"><h3 style="font-size:13px; margin-bottom:14px;">অনুমোদিত Gmail তালিকা</h3><div id="sbWhitelist"></div></div>
+          <div class="panel">
+            <h3 style="font-size:13px; margin-bottom:14px;">নতুন Gmail যোগ করুন</h3>
+            <div class="field"><label>Gmail ঠিকানা</label><input type="text" id="sbNewEmail" placeholder="example@gmail.com"></div>
+            <button class="start-btn" onclick="sbAddEmail()">+ অ্যাক্সেস দিন</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="sbToast"><span class="d"></span><span id="sbToastMsg"></span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  const root = document.currentScript.closest('.sbroot');
+  let WHITELIST = ["tubebost1@gmail.com"];
+  let mode = 'loop';
+  let timer = null, seconds = 0;
+
+  window.sbShowView = function(name){
+    root.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    root.querySelector('#sb-view-'+name).classList.add('active');
+    root.querySelector('#sbLoginError').style.display = 'none';
+  };
+  window.sbTryLogin = function(){
+    const email = "tubebost1@gmail.com";
+    if(WHITELIST.includes(email)){
+      root.querySelector('#sbUserMail').textContent = email;
+      root.querySelector('#sbUserName').textContent = email.split('@')[0];
+      root.querySelector('#sbAvatarLetter').textContent = email[0].toUpperCase();
+      sbShowView('dash');
+      sbToast('সফলভাবে লগইন হয়েছে');
+    } else {
+      root.querySelector('#sbLoginError').style.display = 'block';
+    }
+  };
+  window.sbShowDashPage = function(name, el){
+    root.querySelectorAll('.side-link').forEach(l=>l.classList.remove('active'));
+    el.classList.add('active');
+    root.querySelector('#sb-page-overview').style.display = name==='overview' ? 'block':'none';
+    root.querySelector('#sb-page-stream').style.display = name==='stream' ? 'block':'none';
+    root.querySelector('#sb-page-admin').style.display = name==='admin' ? 'block':'none';
+    if(name==='admin') renderWhitelist();
+  };
+  function renderWhitelist(){
+    const box = root.querySelector('#sbWhitelist');
+    if(WHITELIST.length === 0){ box.innerHTML = '<div class="empty-box">কোনো Gmail নেই।</div>'; return; }
+    box.innerHTML = WHITELIST.map(email => `
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 13px; border:1px solid var(--border); border-radius:9px; margin-bottom:7px;">
+        <div style="display:flex; align-items:center; gap:9px;">
+          <div class="avatar" style="width:26px;height:26px;font-size:11px;">${email[0].toUpperCase()}</div>
+          <span style="font-size:12.5px;">${email}</span>
+        </div>
+        <button class="stop-btn" style="width:auto; margin-top:0; padding:6px 11px;" onclick="sbRemoveEmail('${email}')">বাদ দিন</button>
+      </div>`).join('');
+  }
+  window.sbAddEmail = function(){
+    const input = root.querySelector('#sbNewEmail');
+    const email = input.value.trim().toLowerCase();
+    if(!email || !email.includes('@gmail.com')){ sbToast('সঠিক Gmail লিখুন'); return; }
+    if(WHITELIST.includes(email)){ sbToast('আগে থেকেই তালিকায় আছে'); return; }
+    WHITELIST.push(email); input.value=''; renderWhitelist();
+    sbToast(email + ' কে অ্যাক্সেস দেওয়া হয়েছে');
+  };
+  window.sbRemoveEmail = function(email){
+    const i = WHITELIST.indexOf(email);
+    if(i>-1) WHITELIST.splice(i,1);
+    renderWhitelist();
+    sbToast(email + ' কে বাদ দেওয়া হয়েছে');
+  };
+  window.sbSelectFile = function(){
+    const dz = root.querySelector('#sbDropzone');
+    root.querySelector('#sbDropzoneText').textContent = '✓ demo-video.mp4';
+    root.querySelector('#sbDropzoneSub').textContent = '842.0 MB — ক্লিক করে বদলে দিন';
+    dz.classList.add('has-file');
+    sbToast('ভিডিও ফাইল যুক্ত হয়েছে: demo-video.mp4');
+  };
+  window.sbSetMode = function(m){
+    mode = m;
+    root.querySelector('#sbModeLoop').classList.toggle('selected', m==='loop');
+    root.querySelector('#sbModeOnce').classList.toggle('selected', m==='once');
+  };
+  window.sbStartStream = function(){
+    const title = root.querySelector('#sbStreamTitle').value || 'Untitled Stream';
+    const key = root.querySelector('#sbStreamKey').value;
+    if(!key){ sbToast('স্ট্রিম কী দিতে হবে'); return; }
+    const btn = root.querySelector('#sbStartBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ সংযোগ হচ্ছে...';
+    sbToast('YouTube চ্যানেলের সাথে সংযোগ যাচাই হচ্ছে...');
+    setTimeout(()=>{
+      btn.textContent = '✓ সংযুক্ত হয়েছে...';
+      sbToast('সফলভাবে সংযুক্ত হয়েছে ✓');
+      setTimeout(()=>{
+        root.querySelector('#sbNoActive').style.display = 'none';
+        root.querySelector('#sbActiveCard').style.display = 'block';
+        root.querySelector('#sbActiveTitle').textContent = title;
+        root.querySelector('#sbActiveMode').textContent = mode==='loop' ? 'Loop (24/7)' : 'একবার চলবে';
+        btn.textContent = '● স্ট্রিম চালু আছে (Live)';
+        root.querySelector('#sbStatActive').textContent = '1';
+        root.querySelector('#sbActivityEmpty').textContent = '"' + title + '" স্ট্রিম চালু হয়েছে।';
+        seconds = 0;
+        timer = setInterval(()=>{
+          seconds++;
+          const h = String(Math.floor(seconds/3600)).padStart(2,'0');
+          const m = String(Math.floor((seconds%3600)/60)).padStart(2,'0');
+          const s = String(seconds%60).padStart(2,'0');
+          root.querySelector('#sbActiveTimer').textContent = 'চলছে: ' + h+':'+m+':'+s;
+        }, 1000);
+        sbToast('লাইভ স্ট্রিম শুরু হয়েছে (ডেমো)');
+      }, 1100);
+    }, 1300);
+  };
+  window.sbStopStream = function(){
+    clearInterval(timer);
+    root.querySelector('#sbNoActive').style.display = 'block';
+    root.querySelector('#sbActiveCard').style.display = 'none';
+    const btn = root.querySelector('#sbStartBtn');
+    btn.textContent = 'লাইভ স্ট্রিম শুরু করুন';
+    btn.disabled = false;
+    root.querySelector('#sbStatActive').textContent = '0';
+    sbToast('স্ট্রিম বন্ধ করা হয়েছে');
+  };
+  function sbToast(msg){
+    const t = root.querySelector('#sbToast');
+    root.querySelector('#sbToastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 2600);
+  }
+})();
+</script>
